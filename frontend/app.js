@@ -25,13 +25,28 @@ function App() {
         const codeToAnnotate = activeTab === 'upload' ? pastedCode : pastedCode;
         
         try {
-            // TODO: Replace with actual API call to backend
-            setTimeout(() => {
-                setResult(`// Annotated ${language} code would appear here\n${codeToAnnotate}`);
-                setIsLoading(false);
-            }, 2000);
+            const response = await fetch('http://localhost:8000/annotate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    code: codeToAnnotate,
+                    language: language
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setResult(data.annotated_code);
+            setIsLoading(false);
         } catch (error) {
             console.error('Error annotating code:', error);
+            setResult(`Error: ${error.message}\n\nPlease make sure:\n1. The backend server is running on port 8000\n2. Your OpenAI API key is configured\n3. You have an active internet connection`);
             setIsLoading(false);
         }
     };
