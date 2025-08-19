@@ -24,16 +24,22 @@ def find_available_port(start_port=8000, max_port=8100):
 def main():
     print("🚀 Starting AI Code Commenter...")
     
-    # Find an available port
-    try:
-        port = find_available_port()
-        if port != 8000:
-            print(f"⚠️  Port 8000 is busy, using port {port} instead")
-        else:
-            print(f"✅ Using default port {port}")
-    except RuntimeError as e:
-        print(f"❌ {e}")
-        sys.exit(1)
+    # Get port from environment (Railway/production) or find available port (local)
+    if "PORT" in os.environ:
+        # Production environment (Railway, Heroku, etc.)
+        port = int(os.environ["PORT"])
+        print(f"🌐 Using production port {port} from environment")
+    else:
+        # Local development - find an available port
+        try:
+            port = find_available_port()
+            if port != 8000:
+                print(f"⚠️  Port 8000 is busy, using port {port} instead")
+            else:
+                print(f"✅ Using default port {port}")
+        except RuntimeError as e:
+            print(f"❌ {e}")
+            sys.exit(1)
     
     # Check if frontend directory exists
     frontend_dir = Path("frontend")
@@ -83,13 +89,14 @@ def main():
     print("=" * 50)
     
     # Start the server
+    is_production = "PORT" in os.environ
     try:
         uvicorn.run(
             "main:app",
             host="0.0.0.0",
             port=port,
-            reload=True,
-            reload_dirs=[".", "frontend"]
+            reload=not is_production,  # Disable reload in production
+            reload_dirs=[".", "frontend"] if not is_production else None
         )
     except KeyboardInterrupt:
         print("\n👋 Server stopped. Goodbye!")
