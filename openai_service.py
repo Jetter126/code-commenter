@@ -43,8 +43,8 @@ class OpenAIService:
                         "content": prompt
                     }
                 ],
-                max_tokens=2000,
-                temperature=0.3
+                max_completion_tokens=2000,
+                # temperature=0.3
             )
             
             annotated_code = response.choices[0].message.content.strip()
