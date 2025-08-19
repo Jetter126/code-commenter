@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from openai_service import OpenAIService
 import os
@@ -17,10 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.get("/")
-async def root():
-    return {"message": "AI Code Commenter API is running"}
 
 @app.get("/health")
 async def health_check():
@@ -72,3 +70,11 @@ async def annotate_code(request: CodeAnnotationRequest):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error annotating code: {str(e)}")
+
+# Mount static files for frontend assets
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
+# Serve the frontend at the root
+@app.get("/", include_in_schema=False)
+async def serve_frontend():
+    return FileResponse("frontend/index.html")

@@ -25,7 +25,7 @@ function App() {
         const codeToAnnotate = activeTab === 'upload' ? pastedCode : pastedCode;
         
         try {
-            const response = await fetch('http://localhost:8000/annotate', {
+            const response = await fetch('/annotate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
