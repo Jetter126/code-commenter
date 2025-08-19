@@ -8,7 +8,7 @@ import os
 
 app = FastAPI(
     title="AI Code Commenter",
-    description="An API for automatically adding comments and docstrings to source code",
+    description="An API for automatically adding comments and docstrings to source code.",
     version="1.0.0"
 )
 
@@ -40,7 +40,7 @@ openai_service = OpenAIService()
 @app.post("/annotate", response_model=CodeAnnotationResponse)
 async def annotate_code(request: CodeAnnotationRequest):
     """
-    Annotate code with meaningful comments and docstrings using OpenAI GPT-4.
+    Annotate code with meaningful comments and docstrings.
     """
     try:
         # Check if OpenAI API key is configured

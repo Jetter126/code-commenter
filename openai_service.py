@@ -15,7 +15,7 @@ class OpenAIService:
     
     def annotate_python_code(self, code: str, language: str = "python") -> str:
         """
-        Annotates Python code with meaningful comments and docstrings.
+        Annotates code with meaningful comments and docstrings.
         
         Args:
             code (str): The source code to annotate
@@ -32,7 +32,7 @@ class OpenAIService:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4",
+                model="gpt-5-mini",
                 messages=[
                     {
                         "role": "system",
