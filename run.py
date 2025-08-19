@@ -24,22 +24,9 @@ def find_available_port(start_port=8000, max_port=8100):
 def main():
     print("🚀 Starting AI Code Commenter...")
     
-    # Get port from environment (Railway/production) or find available port (local)
-    if "PORT" in os.environ:
-        # Production environment (Railway, Heroku, etc.)
-        port = int(os.environ["PORT"])
-        print(f"🌐 Using production port {port} from environment")
-    else:
-        # Local development - find an available port
-        try:
-            port = find_available_port()
-            if port != 8000:
-                print(f"⚠️  Port 8000 is busy, using port {port} instead")
-            else:
-                print(f"✅ Using default port {port}")
-        except RuntimeError as e:
-            print(f"❌ {e}")
-            sys.exit(1)
+    # Use hardcoded port 8000 for both local and production
+    port = 8000
+    print(f"🌐 Using hardcoded port {port}")
     
     # Check if frontend directory exists
     frontend_dir = Path("frontend")
