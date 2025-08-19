@@ -1,0 +1,17 @@
+{
+  "name": "code-commenter-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for AI Code Commenter",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "serve": "python -m http.server 3000"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/standalone": "^7.22.0"
+  }
+}
