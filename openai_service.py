@@ -13,14 +13,14 @@ class OpenAIService:
         else:
             self.client = None
     
-    def annotate_python_code(self, code: str, language: str = "python", comment_level: str = "detailed") -> str:
+    def annotate_python_code(self, code: str, language: str = "python", comment_level: str = "minimal") -> str:
         """
         Annotates code with meaningful comments and docstrings.
         
         Args:
             code (str): The source code to annotate
             language (str): The programming language (default: python)
-            comment_level (str): Level of comments - "minimal" or "detailed" (default: detailed)
+            comment_level (str): Level of comments - "minimal" or "detailed" (default: minimal)
             
         Returns:
             str: The annotated code with comments and docstrings
@@ -64,7 +64,7 @@ class OpenAIService:
         except Exception as e:
             raise Exception(f"Error calling OpenAI API: {str(e)}")
     
-    def _create_annotation_prompt(self, code: str, language: str, comment_level: str = "detailed") -> str:
+    def _create_annotation_prompt(self, code: str, language: str, comment_level: str = "minimal") -> str:
         """
         Creates a prompt for code annotation based on the programming language and comment level.
         

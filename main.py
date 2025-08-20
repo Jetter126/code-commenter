@@ -28,7 +28,7 @@ async def health_check():
 class CodeAnnotationRequest(BaseModel):
     code: str
     language: str = "python"
-    comment_level: str = "detailed"
+    comment_level: str = "minimal"
 
 class CodeAnnotationResponse(BaseModel):
     annotated_code: str

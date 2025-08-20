@@ -5,7 +5,7 @@ function App() {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [pastedCode, setPastedCode] = useState('');
     const [language, setLanguage] = useState('python');
-    const [commentLevel, setCommentLevel] = useState('detailed');
+    const [commentLevel, setCommentLevel] = useState('minimal');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
 
