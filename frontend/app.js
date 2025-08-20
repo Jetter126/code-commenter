@@ -5,6 +5,7 @@ function App() {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [pastedCode, setPastedCode] = useState('');
     const [language, setLanguage] = useState('python');
+    const [commentLevel, setCommentLevel] = useState('detailed');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
 
@@ -153,6 +154,43 @@ function App() {
                                 <option value="go">Go</option>
                                 <option value="rust">Rust</option>
                             </select>
+                        </div>
+
+                        {/* Comment Level Selection */}
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-gray-700 mb-3">
+                                Comment Level
+                            </label>
+                            <div className="flex space-x-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setCommentLevel('minimal')}
+                                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
+                                        commentLevel === 'minimal'
+                                            ? 'bg-blue-600 text-white border-2 border-blue-600'
+                                            : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-300'
+                                    }`}
+                                >
+                                    <div className="text-center">
+                                        <div className="font-semibold">📝 Minimal</div>
+                                        <div className="text-xs mt-1 opacity-80">Essential comments only</div>
+                                    </div>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setCommentLevel('detailed')}
+                                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
+                                        commentLevel === 'detailed'
+                                            ? 'bg-blue-600 text-white border-2 border-blue-600'
+                                            : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-300'
+                                    }`}
+                                >
+                                    <div className="text-center">
+                                        <div className="font-semibold">📚 Detailed</div>
+                                        <div className="text-xs mt-1 opacity-80">Comprehensive documentation</div>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
 
                         {/* Submit Button */}
