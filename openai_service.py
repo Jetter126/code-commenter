@@ -13,19 +13,20 @@ class OpenAIService:
         else:
             self.client = None
     
-    def annotate_python_code(self, code: str, language: str = "python") -> str:
+    def annotate_python_code(self, code: str, language: str = "python", comment_level: str = "detailed") -> str:
         """
         Annotates code with meaningful comments and docstrings.
         
         Args:
             code (str): The source code to annotate
             language (str): The programming language (default: python)
+            comment_level (str): Level of comments - "minimal" or "detailed" (default: detailed)
             
         Returns:
             str: The annotated code with comments and docstrings
         """
         
-        prompt = self._create_annotation_prompt(code, language)
+        prompt = self._create_annotation_prompt(code, language, comment_level)
         
         if not self.client:
             raise Exception("OpenAI API key not configured")
@@ -63,29 +64,57 @@ class OpenAIService:
         except Exception as e:
             raise Exception(f"Error calling OpenAI API: {str(e)}")
     
-    def _create_annotation_prompt(self, code: str, language: str) -> str:
+    def _create_annotation_prompt(self, code: str, language: str, comment_level: str = "detailed") -> str:
         """
-        Creates a detailed prompt for code annotation based on the programming language.
+        Creates a prompt for code annotation based on the programming language and comment level.
         
         Args:
             code (str): The source code
             language (str): The programming language
+            comment_level (str): Level of comments - "minimal" or "detailed"
             
         Returns:
             str: The formatted prompt
         """
         
         if language.lower() == "python":
-            return f"""
-Please add meaningful comments and docstrings to the following Python code. Follow these guidelines:
+            if comment_level == "minimal":
+                return f"""
+Please add minimal, essential comments to the following Python code. Follow these guidelines:
 
-1. Add Google-style docstrings for all functions and classes
-2. Include inline comments for complex logic, loops, and important operations
-3. Explain the purpose of variables when not obvious
-4. Add comments for error handling and edge cases
+1. Add brief docstrings only for functions and classes that aren't self-explanatory
+2. Add inline comments only for complex or non-obvious logic
+3. Keep comments concise and to the point
+4. Focus on WHAT the code does, not HOW
+5. Avoid obvious comments
+6. Keep existing code structure intact
+
+Here's the Python code to annotate:
+
+```python
+{code}
+```
+
+Return only the annotated code without any additional explanation or markdown formatting.
+"""
+            else:  # detailed
+                return f"""
+Please add comprehensive comments and docstrings to the following Python code. Follow these guidelines:
+
+1. Add detailed Google-style docstrings for all functions and classes with:
+   - Description of purpose
+   - Args with types and descriptions
+   - Returns with type and description
+   - Raises for exceptions (if applicable)
+2. Include detailed inline comments explaining:
+   - Complex logic and algorithms
+   - Business logic and decision points
+   - Loop purposes and conditions
+   - Variable purposes when not obvious
+3. Add comments for error handling and edge cases
+4. Explain WHY decisions were made, not just WHAT the code does
 5. Keep existing code structure intact
-6. Use clear, concise language
-7. Don't add redundant comments for obvious operations
+6. Use clear, comprehensive language
 
 Here's the Python code to annotate:
 
@@ -96,16 +125,44 @@ Here's the Python code to annotate:
 Return only the annotated code without any additional explanation or markdown formatting.
 """
         else:
-            return f"""
-Please add meaningful comments and docstrings to the following {language} code. Follow these guidelines:
+            if comment_level == "minimal":
+                return f"""
+Please add minimal, essential comments to the following {language} code. Follow these guidelines:
 
-1. Add appropriate documentation comments for functions and classes (language-specific style)
-2. Include inline comments for complex logic, loops, and important operations  
-3. Explain the purpose of variables when not obvious
-4. Add comments for error handling and edge cases
+1. Add brief documentation comments only for functions and classes that aren't self-explanatory
+2. Add inline comments only for complex or non-obvious logic
+3. Keep comments concise and to the point
+4. Focus on WHAT the code does, not HOW
+5. Avoid obvious comments
+6. Keep existing code structure intact
+7. Use language-appropriate comment syntax
+
+Here's the {language} code to annotate:
+
+```
+{code}
+```
+
+Return only the annotated code without any additional explanation or markdown formatting.
+"""
+            else:  # detailed
+                return f"""
+Please add comprehensive comments and docstrings to the following {language} code. Follow these guidelines:
+
+1. Add detailed documentation comments for all functions and classes using language-specific style:
+   - Description of purpose and functionality
+   - Parameter descriptions with types
+   - Return value descriptions
+   - Exception information where applicable
+2. Include detailed inline comments explaining:
+   - Complex logic and algorithms
+   - Business logic and decision points
+   - Loop purposes and conditions
+   - Variable purposes when not obvious
+3. Add comments for error handling and edge cases
+4. Explain WHY decisions were made, not just WHAT the code does
 5. Keep existing code structure intact
-6. Use clear, concise language
-7. Don't add redundant comments for obvious operations
+6. Use language-appropriate comment syntax and conventions
 
 Here's the {language} code to annotate:
 

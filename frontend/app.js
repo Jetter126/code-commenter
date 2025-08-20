@@ -33,7 +33,8 @@ function App() {
                 },
                 body: JSON.stringify({
                     code: codeToAnnotate,
-                    language: language
+                    language: language,
+                    comment_level: commentLevel
                 })
             });
 

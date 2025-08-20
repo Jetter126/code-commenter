@@ -28,6 +28,7 @@ async def health_check():
 class CodeAnnotationRequest(BaseModel):
     code: str
     language: str = "python"
+    comment_level: str = "detailed"
 
 class CodeAnnotationResponse(BaseModel):
     annotated_code: str
@@ -57,7 +58,8 @@ async def annotate_code(request: CodeAnnotationRequest):
         # Call OpenAI service to annotate the code
         annotated_code = openai_service.annotate_python_code(
             code=request.code,
-            language=request.language
+            language=request.language,
+            comment_level=request.comment_level
         )
         
         return CodeAnnotationResponse(
