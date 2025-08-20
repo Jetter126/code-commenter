@@ -8,6 +8,7 @@ function App() {
     const [commentLevel, setCommentLevel] = useState('minimal');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
+    const [darkMode, setDarkMode] = useState(false);
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -54,51 +55,81 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-6xl mx-auto px-4">
+        <div className={`min-h-screen transition-colors duration-300 ${
+            darkMode ? 'bg-black text-white' : 'bg-white text-black'
+        }`}>
+            <div className="max-w-7xl mx-auto px-6 py-12">
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                        🧠 AI Code Commenter
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        Automatically add meaningful comments and docstrings to your code
-                    </p>
+                <div className="flex justify-between items-start mb-16">
+                    <div>
+                        <h1 className={`text-5xl font-semibold mb-6 ${
+                            darkMode ? 'text-white' : 'text-black'
+                        }`}>
+                            Code Commenter
+                        </h1>
+                        <p className={`text-xl leading-relaxed ${
+                            darkMode ? 'text-gray-400' : 'text-gray-600'
+                        }`}>
+                            Automatically add meaningful comments and docstrings to your code
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => setDarkMode(!darkMode)}
+                        className={`p-3 rounded-full transition-colors ${
+                            darkMode 
+                                ? 'bg-gray-800 hover:bg-gray-700 text-gray-300' 
+                                : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                        }`}
+                    >
+                        {darkMode ? '☀️' : '🌙'}
+                    </button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
                     {/* Input Section */}
-                    <div className="bg-white rounded-lg shadow-lg p-6">
-                        <h2 className="text-2xl font-semibold mb-6">Input Code</h2>
+                    <div className={`rounded-2xl border p-8 ${
+                        darkMode 
+                            ? 'bg-gray-900 border-gray-800' 
+                            : 'bg-gray-50 border-gray-200'
+                    }`}>
+                        <h2 className={`text-2xl font-medium mb-8 ${
+                            darkMode ? 'text-white' : 'text-black'
+                        }`}>Input Code</h2>
                         
                         {/* Tab Navigation */}
-                        <div className="flex mb-6 border-b border-gray-200">
+                        <div className={`flex mb-8 border-b ${
+                            darkMode ? 'border-gray-700' : 'border-gray-300'
+                        }`}>
                             <button
-                                className={`py-2 px-4 font-medium ${
+                                className={`py-3 px-6 font-medium transition-colors ${
                                     activeTab === 'upload'
-                                        ? 'text-blue-600 border-b-2 border-blue-600'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                        ? (darkMode ? 'text-white border-b-2 border-white' : 'text-black border-b-2 border-black')
+                                        : (darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800')
                                 }`}
                                 onClick={() => setActiveTab('upload')}
                             >
-                                📁 Upload File
+                                Upload File
                             </button>
                             <button
-                                className={`py-2 px-4 font-medium ${
+                                className={`py-3 px-6 font-medium transition-colors ${
                                     activeTab === 'paste'
-                                        ? 'text-blue-600 border-b-2 border-blue-600'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                        ? (darkMode ? 'text-white border-b-2 border-white' : 'text-black border-b-2 border-black')
+                                        : (darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-800')
                                 }`}
                                 onClick={() => setActiveTab('paste')}
                             >
-                                📝 Paste Code
+                                Paste Code
                             </button>
                         </div>
 
                         {/* File Upload Tab */}
                         {activeTab === 'upload' && (
-                            <div className="mb-6">
-                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+                            <div className="mb-8">
+                                <div className={`border-2 border-dashed rounded-xl p-12 text-center transition-all hover:border-opacity-60 ${
+                                    darkMode 
+                                        ? 'border-gray-600 hover:border-gray-500' 
+                                        : 'border-gray-300 hover:border-gray-400'
+                                }`}>
                                     <input
                                         type="file"
                                         accept=".py,.js,.java,.cpp,.c,.html,.css,.php,.rb,.go,.rs,.ts,.tsx,.jsx"
@@ -110,14 +141,20 @@ function App() {
                                         htmlFor="file-upload"
                                         className="cursor-pointer flex flex-col items-center"
                                     >
-                                        <svg className="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                        <svg className={`w-16 h-16 mb-6 ${
+                                            darkMode ? 'text-gray-500' : 'text-gray-400'
+                                        }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                         </svg>
-                                        <span className="text-lg font-medium text-gray-700">
-                                            {uploadedFile ? uploadedFile.name : 'Click to upload a file'}
+                                        <span className={`text-lg font-medium mb-2 ${
+                                            darkMode ? 'text-gray-200' : 'text-gray-700'
+                                        }`}>
+                                            {uploadedFile ? uploadedFile.name : 'Choose file to upload'}
                                         </span>
-                                        <span className="text-sm text-gray-500 mt-2">
-                                            Supports: .py, .js, .java, .cpp, .c, .html, .css, .php, .rb, .go, .rs, .ts, .tsx, .jsx
+                                        <span className={`text-sm ${
+                                            darkMode ? 'text-gray-400' : 'text-gray-500'
+                                        }`}>
+                                            .py, .js, .java, .cpp, .c, .html, .css, .php, .rb, .go, .rs, .ts, .tsx, .jsx
                                         </span>
                                     </label>
                                 </div>
@@ -126,25 +163,35 @@ function App() {
 
                         {/* Paste Code Tab */}
                         {activeTab === 'paste' && (
-                            <div className="mb-6">
+                            <div className="mb-8">
                                 <textarea
                                     value={pastedCode}
                                     onChange={(e) => setPastedCode(e.target.value)}
                                     placeholder="Paste your code here..."
-                                    className="w-full h-64 p-4 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className={`w-full h-80 p-6 border rounded-xl font-mono text-sm transition-all focus:outline-none focus:ring-2 resize-none ${
+                                        darkMode 
+                                            ? 'bg-black border-gray-700 text-gray-100 placeholder-gray-500 focus:ring-gray-600 focus:border-gray-600' 
+                                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-gray-400 focus:border-gray-400'
+                                    }`}
                                 />
                             </div>
                         )}
 
                         {/* Language Selection */}
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="mb-8">
+                            <label className={`block text-sm font-medium mb-3 ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                            }`}>
                                 Programming Language
                             </label>
                             <select
                                 value={language}
                                 onChange={(e) => setLanguage(e.target.value)}
-                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className={`w-full p-4 border rounded-xl focus:outline-none focus:ring-2 transition-all ${
+                                    darkMode 
+                                        ? 'bg-black border-gray-700 text-gray-100 focus:ring-gray-600 focus:border-gray-600' 
+                                        : 'bg-white border-gray-300 text-gray-900 focus:ring-gray-400 focus:border-gray-400'
+                                }`}
                             >
                                 <option value="python">Python</option>
                                 <option value="javascript">JavaScript</option>
@@ -158,37 +205,39 @@ function App() {
                         </div>
 
                         {/* Comment Level Selection */}
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-3">
+                        <div className="mb-8">
+                            <label className={`block text-sm font-medium mb-4 ${
+                                darkMode ? 'text-gray-300' : 'text-gray-700'
+                            }`}>
                                 Comment Level
                             </label>
-                            <div className="flex space-x-4">
+                            <div className="grid grid-cols-2 gap-4">
                                 <button
                                     type="button"
                                     onClick={() => setCommentLevel('minimal')}
-                                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
+                                    className={`p-4 rounded-xl font-medium transition-all border ${
                                         commentLevel === 'minimal'
-                                            ? 'bg-blue-600 text-white border-2 border-blue-600'
-                                            : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-300'
+                                            ? (darkMode ? 'bg-white text-black border-white' : 'bg-black text-white border-black')
+                                            : (darkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-gray-600' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400')
                                     }`}
                                 >
                                     <div className="text-center">
-                                        <div className="font-semibold">📝 Minimal</div>
-                                        <div className="text-xs mt-1 opacity-80">Essential comments only</div>
+                                        <div className="font-semibold mb-1">Minimal</div>
+                                        <div className="text-xs opacity-75">Essential comments only</div>
                                     </div>
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setCommentLevel('detailed')}
-                                    className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
+                                    className={`p-4 rounded-xl font-medium transition-all border ${
                                         commentLevel === 'detailed'
-                                            ? 'bg-blue-600 text-white border-2 border-blue-600'
-                                            : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-blue-300'
+                                            ? (darkMode ? 'bg-white text-black border-white' : 'bg-black text-white border-black')
+                                            : (darkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-gray-600' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400')
                                     }`}
                                 >
                                     <div className="text-center">
-                                        <div className="font-semibold">📚 Detailed</div>
-                                        <div className="text-xs mt-1 opacity-80">Comprehensive documentation</div>
+                                        <div className="font-semibold mb-1">Detailed</div>
+                                        <div className="text-xs opacity-75">Comprehensive documentation</div>
                                     </div>
                                 </button>
                             </div>
@@ -198,48 +247,68 @@ function App() {
                         <button
                             onClick={handleSubmit}
                             disabled={!pastedCode || isLoading}
-                            className={`w-full py-3 px-6 rounded-lg font-medium ${
+                            className={`w-full py-4 px-6 rounded-xl font-medium transition-all ${
                                 !pastedCode || isLoading
-                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                    : 'bg-blue-600 text-white hover:bg-blue-700 transition-colors'
+                                    ? (darkMode ? 'bg-gray-800 text-gray-500 cursor-not-allowed' : 'bg-gray-200 text-gray-400 cursor-not-allowed')
+                                    : (darkMode ? 'bg-white text-black hover:bg-gray-100' : 'bg-black text-white hover:bg-gray-900')
                             }`}
                         >
                             {isLoading ? (
                                 <span className="flex items-center justify-center">
-                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Annotating...
+                                    Processing...
                                 </span>
                             ) : (
-                                '🧠 Add Comments & Docstrings'
+                                'Generate Comments'
                             )}
                         </button>
                     </div>
 
                     {/* Output Section */}
-                    <div className="bg-white rounded-lg shadow-lg p-6">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-2xl font-semibold">Annotated Code</h2>
+                    <div className={`rounded-2xl border p-8 ${
+                        darkMode 
+                            ? 'bg-gray-900 border-gray-800' 
+                            : 'bg-gray-50 border-gray-200'
+                    }`}>
+                        <div className="flex justify-between items-center mb-8">
+                            <h2 className={`text-2xl font-medium ${
+                                darkMode ? 'text-white' : 'text-black'
+                            }`}>Output</h2>
                             {result && (
                                 <button
                                     onClick={() => navigator.clipboard.writeText(result)}
-                                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                                        darkMode 
+                                            ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                                            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                                    }`}
                                 >
-                                    📋 Copy
+                                    Copy to Clipboard
                                 </button>
                             )}
                         </div>
 
                         {result ? (
-                            <pre className="bg-gray-100 rounded-lg p-4 overflow-auto max-h-96 text-sm font-mono">
+                            <pre className={`rounded-xl p-6 overflow-auto max-h-96 text-sm font-mono border ${
+                                darkMode 
+                                    ? 'bg-black border-gray-800 text-gray-100' 
+                                    : 'bg-white border-gray-300 text-gray-900'
+                            }`}>
                                 <code>{result}</code>
                             </pre>
                         ) : (
-                            <div className="bg-gray-100 rounded-lg p-8 text-center text-gray-500">
-                                <svg className="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            <div className={`rounded-xl p-12 text-center ${
+                                darkMode 
+                                    ? 'bg-black border border-gray-800 text-gray-500' 
+                                    : 'bg-white border border-gray-300 text-gray-400'
+                            }`}>
+                                <svg className={`w-16 h-16 mx-auto mb-4 ${
+                                    darkMode ? 'text-gray-600' : 'text-gray-300'
+                                }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 <p>Your annotated code will appear here</p>
                             </div>
