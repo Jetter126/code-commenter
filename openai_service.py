@@ -101,19 +101,17 @@ Return only the annotated code without any additional explanation or markdown fo
                 return f"""
 Please add standard-level comments to the following Python code. Follow these guidelines:
 
-1. Add clear docstrings for all functions and classes with:
-   - Brief description of purpose
-   - Key parameters and return values
-   - Basic usage examples for complex functions
-2. Include inline comments for:
-   - Important logic sections and algorithms
-   - Non-obvious variable assignments
-   - Key decision points and conditionals
-   - Loop purposes and major iterations
-3. Balance thoroughness with readability
-4. Focus on WHY and WHAT, explaining business logic when relevant
+1. Add brief docstrings for functions and classes that need clarification:
+   - Simple description of purpose
+   - Main parameters only if not obvious
+   - Return value if complex
+2. Include inline comments sparingly for:
+   - Complex logic or algorithms only
+   - Business logic decisions
+   - Non-obvious calculations
+3. Skip obvious comments - let clear code speak for itself
+4. Keep comments concise and practical
 5. Keep existing code structure intact
-6. Use Python docstring conventions (brief and informative)
 
 Here's the Python code to annotate:
 
@@ -175,20 +173,18 @@ Return only the annotated code without any additional explanation or markdown fo
                 return f"""
 Please add standard-level comments to the following {language} code. Follow these guidelines:
 
-1. Add clear documentation comments for most functions and classes with:
-   - Brief description of purpose and functionality
-   - Key parameters and return values
-   - Basic usage context where helpful
-2. Include inline comments for:
-   - Important logic sections and algorithms
-   - Non-obvious operations and calculations
-   - Key decision points and control flow
-   - Loop purposes and significant iterations
-3. Balance detail with readability
-4. Focus on WHY and WHAT, explaining business logic when relevant
+1. Add brief documentation comments for functions and classes that need clarification:
+   - Simple description of purpose
+   - Main parameters only if not obvious
+   - Return value if complex
+2. Include inline comments sparingly for:
+   - Complex logic or algorithms only
+   - Business logic decisions
+   - Non-obvious operations
+3. Skip obvious comments - let clear code speak for itself
+4. Keep comments concise and practical
 5. Keep existing code structure intact
-6. Use language-appropriate comment syntax and conventions
-7. Provide context for complex or domain-specific operations
+6. Use language-appropriate comment syntax
 
 Here's the {language} code to annotate:
 
