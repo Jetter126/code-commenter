@@ -5,7 +5,7 @@ function App() {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [pastedCode, setPastedCode] = useState('');
     const [language, setLanguage] = useState('python');
-    const [commentLevel, setCommentLevel] = useState('minimal');
+    const [commentLevel, setCommentLevel] = useState('standard');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
     const [darkMode, setDarkMode] = useState(false);
@@ -211,7 +211,7 @@ function App() {
                             }`}>
                                 Comment Level
                             </label>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-3 gap-3">
                                 <button
                                     type="button"
                                     onClick={() => setCommentLevel('minimal')}
@@ -223,7 +223,21 @@ function App() {
                                 >
                                     <div className="text-center">
                                         <div className="font-semibold mb-1">Minimal</div>
-                                        <div className="text-xs opacity-75">Essential comments only</div>
+                                        <div className="text-xs opacity-75">Essential only</div>
+                                    </div>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setCommentLevel('standard')}
+                                    className={`p-4 rounded-xl font-medium transition-all border ${
+                                        commentLevel === 'standard'
+                                            ? (darkMode ? 'bg-white text-black border-white' : 'bg-black text-white border-black')
+                                            : (darkMode ? 'bg-gray-800 text-gray-300 border-gray-700 hover:border-gray-600' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-400')
+                                    }`}
+                                >
+                                    <div className="text-center">
+                                        <div className="font-semibold mb-1">Standard</div>
+                                        <div className="text-xs opacity-75">Balanced coverage</div>
                                     </div>
                                 </button>
                                 <button
@@ -237,7 +251,7 @@ function App() {
                                 >
                                     <div className="text-center">
                                         <div className="font-semibold mb-1">Detailed</div>
-                                        <div className="text-xs opacity-75">Comprehensive documentation</div>
+                                        <div className="text-xs opacity-75">Comprehensive docs</div>
                                     </div>
                                 </button>
                             </div>
