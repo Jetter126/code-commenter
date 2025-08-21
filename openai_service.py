@@ -13,14 +13,14 @@ class OpenAIService:
         else:
             self.client = None
     
-    def annotate_python_code(self, code: str, language: str = "python", comment_level: str = "minimal") -> str:
+    def annotate_python_code(self, code: str, language: str = "python", comment_level: str = "standard") -> str:
         """
         Annotates code with meaningful comments and docstrings.
         
         Args:
             code (str): The source code to annotate
             language (str): The programming language (default: python)
-            comment_level (str): Level of comments - "minimal" or "detailed" (default: minimal)
+            comment_level (str): Level of comments - "minimal", "standard", or "detailed" (default: standard)
             
         Returns:
             str: The annotated code with comments and docstrings
@@ -64,14 +64,14 @@ class OpenAIService:
         except Exception as e:
             raise Exception(f"Error calling OpenAI API: {str(e)}")
     
-    def _create_annotation_prompt(self, code: str, language: str, comment_level: str = "minimal") -> str:
+    def _create_annotation_prompt(self, code: str, language: str, comment_level: str = "standard") -> str:
         """
         Creates a prompt for code annotation based on the programming language and comment level.
         
         Args:
             code (str): The source code
             language (str): The programming language
-            comment_level (str): Level of comments - "minimal" or "detailed"
+            comment_level (str): Level of comments - "minimal", "standard", or "detailed"
             
         Returns:
             str: The formatted prompt
@@ -88,6 +88,32 @@ Please add minimal, essential comments to the following Python code. Follow thes
 4. Focus on WHAT the code does, not HOW
 5. Avoid obvious comments
 6. Keep existing code structure intact
+
+Here's the Python code to annotate:
+
+```python
+{code}
+```
+
+Return only the annotated code without any additional explanation or markdown formatting.
+"""
+            elif comment_level == "standard":
+                return f"""
+Please add standard-level comments to the following Python code. Follow these guidelines:
+
+1. Add clear docstrings for all functions and classes with:
+   - Brief description of purpose
+   - Key parameters and return values
+   - Basic usage examples for complex functions
+2. Include inline comments for:
+   - Important logic sections and algorithms
+   - Non-obvious variable assignments
+   - Key decision points and conditionals
+   - Loop purposes and major iterations
+3. Balance thoroughness with readability
+4. Focus on WHY and WHAT, explaining business logic when relevant
+5. Keep existing code structure intact
+6. Use Python docstring conventions (brief and informative)
 
 Here's the Python code to annotate:
 
@@ -136,6 +162,33 @@ Please add minimal, essential comments to the following {language} code. Follow 
 5. Avoid obvious comments
 6. Keep existing code structure intact
 7. Use language-appropriate comment syntax
+
+Here's the {language} code to annotate:
+
+```
+{code}
+```
+
+Return only the annotated code without any additional explanation or markdown formatting.
+"""
+            elif comment_level == "standard":
+                return f"""
+Please add standard-level comments to the following {language} code. Follow these guidelines:
+
+1. Add clear documentation comments for most functions and classes with:
+   - Brief description of purpose and functionality
+   - Key parameters and return values
+   - Basic usage context where helpful
+2. Include inline comments for:
+   - Important logic sections and algorithms
+   - Non-obvious operations and calculations
+   - Key decision points and control flow
+   - Loop purposes and significant iterations
+3. Balance detail with readability
+4. Focus on WHY and WHAT, explaining business logic when relevant
+5. Keep existing code structure intact
+6. Use language-appropriate comment syntax and conventions
+7. Provide context for complex or domain-specific operations
 
 Here's the {language} code to annotate:
 
