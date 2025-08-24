@@ -10,6 +10,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [copyButtonClicked, setCopyButtonClicked] = useState(false);
   
   // GitHub integration state
   const [user, setUser] = useState(null);
@@ -765,14 +766,29 @@ function App() {
               </h2>
               {result && (
                 <button
-                  onClick={() => navigator.clipboard.writeText(result)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    darkMode
+                  onClick={() => {
+                    navigator.clipboard.writeText(result);
+                    setCopyButtonClicked(true);
+                    setTimeout(() => setCopyButtonClicked(false), 2000);
+                  }}
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
+                    copyButtonClicked
+                      ? darkMode
+                        ? "bg-green-700 text-green-100"
+                        : "bg-green-600 text-white"
+                      : darkMode
                       ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
                       : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
                   }`}
                 >
-                  Copy to Clipboard
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {copyButtonClicked ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    )}
+                  </svg>
+                  <span>{copyButtonClicked ? "Copied!" : "Copy"}</span>
                 </button>
               )}
             </div>
