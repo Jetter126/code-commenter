@@ -13,7 +13,7 @@ class OpenAIService:
         else:
             self.client = None
     
-    def annotate_python_code(self, code: str, language: str = "python", comment_level: str = "standard") -> str:
+    def annotate_code(self, code: str, language: str = "python", comment_level: str = "standard") -> str:
         """
         Annotates code with meaningful comments and docstrings.
         

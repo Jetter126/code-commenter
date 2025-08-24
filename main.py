@@ -78,7 +78,7 @@ async def annotate_code(request: CodeAnnotationRequest):
             raise HTTPException(status_code=400, detail="Code cannot be empty")
         
         # Call OpenAI service to annotate the code
-        annotated_code = openai_service.annotate_python_code(
+        annotated_code = openai_service.annotate_code(
             code=request.code,
             language=request.language,
             comment_level=request.comment_level
@@ -205,7 +205,7 @@ async def annotate_github_file(
             raise HTTPException(status_code=404, detail="File not found or cannot be read")
         
         # Annotate the code
-        annotated_code = openai_service.annotate_python_code(
+        annotated_code = openai_service.annotate_code(
             code=file_content,
             language=request.language,
             comment_level=request.comment_level
