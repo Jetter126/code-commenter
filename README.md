@@ -2,6 +2,8 @@
 
 An intelligent web application that automatically adds meaningful inline comments and docstrings to your source code using AI. Upload files, paste code, or connect your GitHub repositories to enhance code readability and maintainability.
 
+**Live App:** [code-commenter-production.up.railway.app](https://code-commenter-production.up.railway.app)
+
 ## Features
 
 ### Multiple Input Methods
@@ -66,7 +68,7 @@ An intelligent web application that automatically adds meaningful inline comment
 
 4. **Start the application**
    ```bash
-   pytho3n run.py
+   python3 run.py
    ```
 
 5. **Access the application**
